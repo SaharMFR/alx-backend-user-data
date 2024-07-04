@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-""" Regex-ing """
+""" Personal data """
 import re
 from typing import List
 import logging
+
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -12,6 +14,19 @@ def filter_datum(fields: List[str], redaction: str,
         message = re.sub(f'{field}=.*?{separator}',
                          f'{field}={redaction}{separator}', message)
     return message
+
+
+def get_logger() -> logging.Logger:
+    """ Returns a `logging.Logger` object """
+    l = logging.getLogger("user_data")
+    l.setLevel(logging.INFO)
+    l.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(list(PII_FIELDS)))
+    l.addHandler(stream_handler)
+
+    return l
 
 
 class RedactingFormatter(logging.Formatter):
