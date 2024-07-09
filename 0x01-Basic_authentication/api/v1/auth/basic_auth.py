@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Defines `BasicAuth` class """
 from api.v1.auth.auth import Auth
+from base64 import b64decode
 
 
 class BasicAuth(Auth):
@@ -26,7 +27,6 @@ class BasicAuth(Auth):
                 not isinstance(base64_authorization_header, str)):
             return None
         try:
-            return (base64.b64decode(base64_authorization_header)
-                    .decode('utf-8'))
+            return b64decode(base64_authorization_header).decode('utf-8')
         except Exception:
             return None
