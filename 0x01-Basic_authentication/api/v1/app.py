@@ -18,13 +18,6 @@ if getenv('AUTH_TYPE', 'auth') == 'auth':
     auth = Auth()
 
 
-@app.errorhandler(404)
-def not_found(error) -> str:
-    """ Not found handler
-    """
-    return jsonify({"error": "Not found"}), 404
-
-
 @app.errorhandler(401)
 def unauthorized(error) -> str:
     """ Unauthorized handler
