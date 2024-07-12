@@ -25,7 +25,7 @@ def login():
     except Exception:
         return jsonify({"error": "no user found for this email"}), 404
 
-    if len(users) == 0:
+    if not users:
         return jsonify({"error": "no user found for this email"}), 404
 
     for user in users:
