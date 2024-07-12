@@ -33,8 +33,8 @@ class SessionExpAuth(SessionAuth):
 
     def user_id_for_session_id(self, session_id=None):
         """ Gets the current user """
-        if (session_id is None or
-            session_id not in self.user_id_by_session_id.keys()):
+        if (session_id is None or session_id not
+                in self.user_id_by_session_id.keys()):
             return None
 
         session_dictionary = self.user_id_by_session_id[session_id]
