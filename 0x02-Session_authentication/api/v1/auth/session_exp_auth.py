@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ Defines `SessionExpAuth` class """
-from api.v1.auth.sesstion_auth import SessionAuth
+from api.v1.auth.session_auth import SessionAuth
 from os import getenv
 from datetime import datetime, timedelta
 
