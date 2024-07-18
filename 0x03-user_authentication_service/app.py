@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """ Flask app """
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 AUTH = Auth()
 app = Flask(__name__)
 
 
-@app.route("/", strict_slashes=False)
+@app.route("/", methods=["GET"], strict_slashes=False)
 def start() -> str:
     """ GET /
     Return:
@@ -45,6 +45,20 @@ def login() -> str:
     res = jsonify({"email": f"{email}", "message": "logged in"})
     res.set_cookie("session_id", session_id)
     return res
+
+
+@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
+def logout() -> str:
+    """ DELETE /sessions
+    Return:
+      - logged out
+    """
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if not user:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect("/")
 
 
 if __name__ == "__main__":
